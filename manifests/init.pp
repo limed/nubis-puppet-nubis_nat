@@ -7,29 +7,27 @@
 # Parameters
 # ----------
 #
-# Document parameters here.
+# * `ensure`
+#   Ensure if modules exists, defaults to present
 #
-# * `sample parameter`
-# Explanation of what this parameter affects and what it defaults to.
-# e.g. "Specify one or more upstream ntp servers as an array."
+# * `auto`
+#   Automatically symlinks /usr/local/bin/nat.sh to /etc/nubis.d/99-nat
 #
-# Variables
-# ----------
+# * `startup_order`
+#   What number do you want this to startup as, it just prepends a number in front of the symlink. Defaults to 99
 #
-# Here you should define a list of variables that this module would require.
+# * `nat_interface`
+#   Which interface do we want our nat instance to be in, defaults to eth0
 #
-# * `sample variable`
-#  Explanation of how this variable affects the function of this class and if
-#  it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#  External Node Classifier as a comma separated list of hostnames." (Note,
-#  global variables should be avoided in favor of class parameters as
-#  of Puppet 2.6.)
+# * `disable_interface`
+#   Which interface to disable, defaults to undef
 #
 # Examples
 # --------
 #
 #    class { 'nubis_nat':
-#      servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
+#       nat_interface     => 'eth0',
+#       disable_interface => 'eth1',
 #    }
 #
 # Authors
@@ -40,9 +38,52 @@
 # Copyright
 # ---------
 #
-# Copyright 2015 Your name here, unless otherwise noted.
+# Copyright 2015 Ed Lim
 #
-class nubis_nat {
+class nubis_nat(
+    $ensure             = 'present',
+    $auto               = true,
+    $startup_order      = '99',
+    $nat_interface      = 'eth0',
+    $disable_interface  = undef,
+){
 
+    if !($ensure in ['present', 'absent']) {
+        fail("Parameter ${ensure} is not a valid parameter")
+    }
+
+    if $ensure == 'present' {
+        $file_ensure    = 'file'
+        $link_ensure    = 'link'
+    }
+    else {
+        $file_ensure    = 'absent'
+        $link_ensure    = 'absent'
+    }
+
+    file { '/usr/local/lib/util.sh':
+        ensure => $file_ensure,
+        owner  => root,
+        group  => root,
+        mode   => '0744',
+        source => 'puppet:///modules/nubis_nat/util.sh'
+    }
+
+    file { '/usr/local/bin/nat.sh':
+        ensure  => $file_ensure,
+        owner   => root,
+        group   => root,
+        mode    => '0755',
+        content => template('nubis_nat/nat.sh.erb')
+        require => File['/usr/local/lib/util.sh']
+    }
+
+    if $auto {
+        file { "/etc/nubis.d/${order}-nat":
+            ensure  => $link_ensure,
+            target  => '/usr/local/bin/nat.sh',
+            require => File['/usr/local/bin/nat.sh'],
+        }
+    }
 
 }

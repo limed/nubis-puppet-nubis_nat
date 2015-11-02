@@ -74,3 +74,7 @@ if [[ "${SOURCEDEST_CHECK}" != 'False' ]] || [[ "${SOURCEDEST_CHECK}" != 'false'
     aws ec2 modify-network-interface-attribute --network-interface-id "${ENI_ID}" --no-source-dest-check --region "${REGION}" ||
         die "Unable to set SourceDestCheck to false"
 fi
+<% if @disable_interface %>
+log "Disable interface <%= @disable_interface %>"
+ip link set <%= @disable_interface %> down
+<% end %>
