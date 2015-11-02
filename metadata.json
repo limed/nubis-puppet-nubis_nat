@@ -1,0 +1,14 @@
+{
+  "name": "nubis-puppet-nubis_nat",
+  "version": "0.1.0",
+  "author": "limed@mozilla.com",
+  "summary": "Creates AWS nat instance iptable rules",
+  "license": "MPL-2.0",
+  "source": "https://github.com/limed/nubis-puppet-nubis_nat",
+  "project_page": "https://github.com/limed/nubis-puppet-nubis_nat",
+  "issues_url": "https://github.com/limed/nubis-puppet-nubis_nat/issues",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+  ]
+}
+
