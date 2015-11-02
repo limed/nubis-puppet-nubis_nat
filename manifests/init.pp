@@ -1,7 +1,8 @@
 # Class: nubis_nat
 # ===========================
 #
-# Full description of class nubis_nat here.
+# Copies a templatized script that setups an iptable rule that will setup
+# an ec2 instance as a NAT instance
 #
 # Parameters
 # ----------
@@ -27,7 +28,6 @@
 # Examples
 # --------
 #
-# @example
 #    class { 'nubis_nat':
 #      servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
 #    }
@@ -35,7 +35,7 @@
 # Authors
 # -------
 #
-# Author Name <author@domain.com>
+# Ed Lim <limed@mozilla.com>
 #
 # Copyright
 # ---------
