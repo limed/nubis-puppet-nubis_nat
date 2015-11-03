@@ -1,5 +1,5 @@
 {
-  "name": "nubis-puppet-nubis_nat",
+  "name": "nubis-puppet-nat",
   "version": "0.1.0",
   "author": "limed@mozilla.com",
   "summary": "Creates AWS nat instance iptable rules",
