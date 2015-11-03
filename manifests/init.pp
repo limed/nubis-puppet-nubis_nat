@@ -79,7 +79,7 @@ class nubis_nat(
     }
 
     if $auto {
-        file { "/etc/nubis.d/${order}-nat":
+        file { "/etc/nubis.d/${startup_order}-nat":
             ensure  => $link_ensure,
             target  => '/usr/local/bin/nat.sh',
             require => File['/usr/local/bin/nat.sh'],
