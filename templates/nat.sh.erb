@@ -76,5 +76,5 @@ if [[ "${SOURCEDEST_CHECK}" != 'False' ]] || [[ "${SOURCEDEST_CHECK}" != 'false'
 fi
 <% if @disable_interface %>
 log "Disable interface <%= @disable_interface %>"
-ip link set <%= @disable_interface %> down
+ifdown <%= @disable_interface %>
 <% end %>
