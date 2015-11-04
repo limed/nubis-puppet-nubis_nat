@@ -41,11 +41,11 @@
 # Copyright 2015 Ed Lim
 #
 class nubis_nat(
-    $ensure             = 'present',
-    $auto               = true,
-    $startup_order      = '99',
-    $nat_interface      = 'eth0',
-    $disable_interface  = undef,
+    $ensure                     = 'present',
+    $auto                       = true,
+    $startup_order              = '99',
+    $nat_interface              = 'eth0',
+    $disable_route_interface    = undef,
 ){
 
     if !($ensure in ['present', 'absent']) {
