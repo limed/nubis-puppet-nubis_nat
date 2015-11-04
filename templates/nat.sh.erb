@@ -31,9 +31,27 @@
 
 NAT_INTERFACE="<%= @nat_interface %>"
 
+function _get_mac {
+    if [[ -z "${1}" ]]; then echo "Usage: $FUNCNAME [interface]"; return 1; fi
+
+    local attempts=10
+    local interface=$1
+    false
+    while [[ "${?}" -gt 0 ]]; do
+        [[ "${attempts}" -eq 0 ]] && return
+        mac_addr=$(cat /sys/class/net/${interface}/address)
+        if [ "${?}" -gt 0 ]; then
+            let attempts--
+            sleep 3
+            false
+        fi
+    done
+    echo "${mac_addr}"
+}
+
 log "Beginning Port Address Translator (PAT) configuration..."
 log "Determining the MAC address on ${NAT_INTERFACE}..."
-ETH_MAC=$(cat /sys/class/net/${NAT_INTERFACE}/address) ||
+ETH_MAC=$(_get_mac ${NAT_INTERFACE}) ||
     die "Unable to determine MAC address on ${NAT_INTERFACE}."
 log "Found MAC ${ETH_MAC} for ${NAT_INTERFACE}."
 
