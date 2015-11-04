@@ -75,10 +75,10 @@ sysctl -q -w net.ipv4.ip_forward=1 net.ipv4.conf.all.send_redirects=0 && (
     iptables -t nat -A POSTROUTING -o ${NAT_INTERFACE} -s ${VPC_CIDR_RANGE} -j MASQUERADE ) ||
         die
 
-set -x
-sysctl net.ipv4.ip_forward net.ipv4.conf.all.send_redirects
-iptables -n -t nat -L POSTROUTING
-set +x
+# Some debugging output here
+log "$(sysctl net.ipv4.ip_forward)"
+log "$(sysctl net.ipv4.conf.all.send_redirects)"
+log "$(iptables -n -t nat -L POSTROUTING)"
 
 log "Configuration of NAT/PAT complete."
 
@@ -93,6 +93,6 @@ if [[ "${SOURCEDEST_CHECK}" != 'False' ]] || [[ "${SOURCEDEST_CHECK}" != 'false'
         die "Unable to set SourceDestCheck to false"
 fi
 <% if @disable_interface %>
-log "Disable interface <%= @disable_interface %>"
-ifdown <%= @disable_interface %>
+log "Deleting default route for: <%= @disable_interface %>"
+route del default <%= @disable_interface %>
 <% end %>
