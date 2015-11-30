@@ -94,6 +94,6 @@ if [[ "${SOURCEDEST_CHECK}" != 'False' ]] || [[ "${SOURCEDEST_CHECK}" != 'false'
         die "Unable to set SourceDestCheck to false"
 fi
 <% if @disable_route_interface %>
-log "Deleting default route for: <%= @disable_route_interface %>"
-route del default <%= @disable_route_interface %>
+#log "Deleting default route for: <%= @disable_route_interface %>"
+#route del default <%= @disable_route_interface %>
 <% end %>
