@@ -50,6 +50,68 @@ function _get_mac {
     echo "${mac_addr}"
 }
 
+function __get_availability_zone() {
+    local availability_zone=$(curl -s -fq http://169.254.169.254/latest/meta-data/placement/availability-zone)
+    echo "${availability_zone}"
+}
+
+function __get_instance_id() {
+    local instance_id=$(curl --retry 3 --retry-delay 0 -s -fq http://169.254.169.254/latest/meta-data/instance-id)
+    echo "${instance_id}"
+}
+
+function __get_vpc_id() {
+    local instance_id=$(__get_instance_id)
+    local vpc_id=$(aws --region "${REGION}" ec2 describe-instances --instance-ids "${instance_id}" --query 'Reservations[*].Instances[*].VpcId' --output text)
+}
+
+function my_private_subnets() {
+    local vpc_id=$1
+    aws ec2 describe-subnets \
+        --region "${REGION}" \
+        --filter \
+            Name=availability-zone,Values=$(__get_availability_zone) \
+            Name=vpc-id,Values="${vpc_id}" \
+            Name=state,Values=available \
+            Name=tag-value,Values='PrivateSubnet*' \
+        --query \
+            'Subnets[*].SubnetId' \
+        --output text
+}
+
+function check_default_route_instance() {
+    if [ -z "$1" ]; then echo "Usage: $FUNCNAME [subnet id]"; return 1; fi
+
+    local subnet_id=$1
+    aws ec2 describe-route-tables \
+        --region "${region}" \
+        --filter \
+            Name=tag-value,Values='PrivateSubnet*',Name=tag-value,Values="${NUBIS_ENVIRONMENT}"\
+            Name=association.subnet-id,Values="${subnet_id}"\
+        --query \
+            'RouteTables[*].Routes[?DestinationCidrBlock == `0.0.0.0/0`].InstanceId' \
+        --output text
+}
+
+function check_route_table() {
+    true
+}
+
+function get_main_rtb() {
+    if [ -z "$1" ]; then echo "Usage: $FUNCNAME [vpc id]"; return 1; fi
+
+    local vpc_id=$1
+
+    aws ec2 describe-route-tables\
+        --region "${REGION}"\
+        --filter \
+            Name=vpc-id,Values="${vpc_id}"\
+            Name=association.main,Values=true\
+        --query \
+            'RouteTables[*].RouteTableId'\
+        --output text
+}
+
 log "Beginning Port Address Translator (PAT) configuration..."
 log "Determining the MAC address on ${NAT_INTERFACE}..."
 ETH_MAC=$(_get_mac ${NAT_INTERFACE}) ||
@@ -82,6 +144,9 @@ log "$(sysctl net.ipv4.conf.all.send_redirects)"
 log "$(iptables -n -t nat -L POSTROUTING)"
 
 log "Configuration of NAT/PAT complete."
+
+INSTANCE_ID=$(curl --retry 3 --retry-delay 0 -s -fq http://169.254.169.254/latest/meta-data/instance-id)
+VPC_ID=$(aws ec2 describe-instances --instance-ids "${instance_id}" --query 'Reservations[*].Instances[*].VpcId' --region "${REGION}" --output text)
 
 log "Disabling SourceDestCheck"
 ENI_ID=$(curl --retry 3 --silent --fail "${ENI_ID_URI}")
