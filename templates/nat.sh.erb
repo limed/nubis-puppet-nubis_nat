@@ -177,7 +177,8 @@ else
         elif [ -z "${rtb_id}" ]; then
             log "WARNING: "${subnet}" is not associated with a route table. Skipping this subnet"
         else
-            log "Replacing default route for ${rtb_id} to point to instance ${instance_id} and eni ${ENI_ID}"
+            log "Replacing default route for ${rtb_id} to point to instance ${instance_id} (${ENI_ID})"
+            aws --region "${REGION}" ec2 replace-route --route-table-id "${rtb_id}" --destination-cidr-block 0.0.0.0/0 --network-interface-id "${ENI_ID}"
         fi
     done
 fi
