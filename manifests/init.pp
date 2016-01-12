@@ -45,7 +45,6 @@ class nubis_nat(
     $auto                       = true,
     $startup_order              = '99',
     $nat_interface              = 'eth0',
-    $disable_route_interface    = undef,
 ){
 
     if !($ensure in ['present', 'absent']) {
