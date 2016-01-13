@@ -61,14 +61,6 @@ class nubis_nat(
         $link_ensure    = 'absent'
     }
 
-    file { '/usr/local/lib/util.sh':
-        ensure => $file_ensure,
-        owner  => root,
-        group  => root,
-        mode   => '0744',
-        source => 'puppet:///modules/nubis_nat/util.sh'
-    }
-
     file { '/usr/local/bin/nat.sh':
         ensure  => $file_ensure,
         owner   => root,
