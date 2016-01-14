@@ -67,7 +67,6 @@ class nubis_nat(
         group   => root,
         mode    => '0755',
         content => template('nubis_nat/nat.sh.erb'),
-        require => File['/usr/local/lib/util.sh'],
     }
 
     if $auto {
