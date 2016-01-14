@@ -34,6 +34,8 @@
 NAT_IN_INTERFACE="<%= @nat_in_interface %>"
 NAT_OUT_INTERFACE="<%= @nat_out_interface %>"
 
+REGION=$(get_region)
+
 function get_vpc_id() {
     if [ -z "$1" ]; then echo "Usage: $FUNCNAME [instance id]"; return 1; fi
 
@@ -61,7 +63,7 @@ function check_default_route_eni() {
 
     local subnet_id=$1
     aws ec2 describe-route-tables \
-        --region "${region}" \
+        --region "${REGION}" \
         --filter \
             Name=tag-value,Values='PrivateSubnet*',Name=tag-value,Values="${NUBIS_ENVIRONMENT}"\
             Name=association.subnet-id,Values="${subnet_id}"\
