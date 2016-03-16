@@ -85,6 +85,19 @@ function get_rtb_id() {
         --output text
 }
 
+function get_rtb_eni_id() {
+    if [ -z "$1" ]; then echo "Usage: $FUNCNAME [subnet-id]"; return 1; fi
+
+    local subnet_id=$1
+    aws ec2 describe-route-tables \
+        --region "${REGION}" \
+        --filter \
+            Name=association.subnet-id,Values="${subnet_id}" \
+        --query \
+          'RouteTables[].Routes[?DestinationCidrBlock == `0.0.0.0/0`].NetworkInterfaceId' \
+        --output text
+}
+
 function get_main_rtb() {
     if [ -z "$1" ]; then echo "Usage: $FUNCNAME [vpc id]"; return 1; fi
 
@@ -150,13 +163,18 @@ else
         log "Modifying route table to for the following private subnet: "${subnet}""
 
         rtb_id=$(get_rtb_id "${subnet}")
+        rtb_eni_id=$(get_rtb_eni_id "${subnet}")
+
         if [ "${rtb_id}" == ${MAIN_RT} ]; then
             log "WARNING: "${subnet}" is associated with the VPC main route table. Nat script will not edit Main route table"
         elif [ -z "${rtb_id}" ]; then
             log "WARNING: "${subnet}" is not associated with a route table. Skipping this subnet"
         else
-            log "Replacing default route for ${rtb_id} to point to instance ${INSTANCE_ID} (${ENI_IN_ID})"
-            aws --region "${REGION}" ec2 replace-route --route-table-id "${rtb_id}" --destination-cidr-block 0.0.0.0/0 --network-interface-id "${ENI_IN_ID}"
+            # If our ENI isn't the default route for that subnet, make it so
+            if [ "$rtb_eni_id" != "${ENI_IN_ID}" ]; then
+              log "Replacing default route for ${rtb_id} to point to instance ${INSTANCE_ID} (${ENI_IN_ID})"
+              aws --region "${REGION}" ec2 replace-route --route-table-id "${rtb_id}" --destination-cidr-block 0.0.0.0/0 --network-interface-id "${ENI_IN_ID}"
+            fi
         fi
     done
 fi
