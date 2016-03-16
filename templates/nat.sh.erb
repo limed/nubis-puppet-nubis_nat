@@ -93,7 +93,7 @@ function get_rtb_eni_id() {
         --region "${REGION}" \
         --filter \
             Name=association.subnet-id,Values="${subnet_id}" \
-        -query \
+        --query \
           'RouteTables[].Routes[?DestinationCidrBlock == `0.0.0.0/0`].NetworkInterfaceId' \
         --output text
 }
