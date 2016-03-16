@@ -92,7 +92,10 @@ function get_rtb_eni_id() {
     aws ec2 describe-route-tables \
         --region "${REGION}" \
         --filter \
-            Name=association.subnet-id,Values="${subnet_id}" | jq -r '.RouteTables[0].Routes[] | select(.DestinationCidrBlock == "0.0.0.0/0") | .NetworkInterfaceId'
+            Name=association.subnet-id,Values="${subnet_id}" \
+        -query \
+          'RouteTables[].Routes[?DestinationCidrBlock == `0.0.0.0/0`].NetworkInterfaceId' \
+        --output text
 }
 
 function get_main_rtb() {
