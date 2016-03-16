@@ -11,10 +11,10 @@
 #   Ensure if modules exists, defaults to present
 #
 # * `auto`
-#   Automatically symlinks /usr/local/bin/nat.sh to /etc/nubis.d/99-nat
+#   Automatically symlinks /usr/local/bin/nat.sh to /etc/nubis.d/0-3-nat
 #
 # * `startup_order`
-#   What number do you want this to startup as, it just prepends a number in front of the symlink. Defaults to 99
+#   What number do you want this to startup as, it just prepends a number in front of the symlink. Defaults to 0-3
 #
 # * `nat_interface`
 #   Which interface do we want our nat instance to be in, defaults to eth0
@@ -43,7 +43,7 @@
 class nubis_nat(
     $ensure                     = 'present',
     $auto                       = true,
-    $startup_order              = '99',
+    $startup_order              = '0-3',
     $nat_in_interface           = 'eth1',
     $nat_out_interface          = 'eth0',
 ){
