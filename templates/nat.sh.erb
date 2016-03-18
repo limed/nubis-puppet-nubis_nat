@@ -135,7 +135,7 @@ else
 fi
 
 log "Enabling PAT..."
-sysctl -q -w net.ipv4.ip_forward=1 net.ipv4.conf.all.send_redirects=0 && (
+sysctl -q -p /etc/sysctl.d/01-nat-sysctl.cfg && (
     iptables -t nat -C POSTROUTING -o ${NAT_OUT_INTERFACE} -s ${VPC_CIDR_RANGE} -j MASQUERADE -m comment --comment "000 snat for network ${VPC_CIDR_RANGE}" 2> /dev/null ||
     iptables -t nat -A POSTROUTING -o ${NAT_OUT_INTERFACE} -s ${VPC_CIDR_RANGE} -j MASQUERADE -m comment --comment "000 snat for network ${VPC_CIDR_RANGE}" ) ||
         die
