@@ -1,0 +1,9 @@
+# Disable rp_filter (reverse path filter)
+#net.ipv4.conf.all.rp_filter = 0
+
+# We always assume eth1 is the second interface!
+net.ipv4.conf.<%= @nat_in_interface %>.rp_filter = 0
+
+# NAT stuff
+net.ipv4.ip_forward = 1
+net.ipv4.conf.all.send_redirects = 0
