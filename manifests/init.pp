@@ -69,6 +69,14 @@ class nubis_nat(
         content => template('nubis_nat/nat.sh.erb'),
     }
 
+    file { '/etc/sysctl.d/01-nat-sysctl.cfg':
+        ensure  => $file_ensure,
+        owner   => root,
+        group   => root,
+        mode    => '0644',
+        content => template('nubis_nat/01-nat-sysctl.cfg.erb'),
+    }
+
     if $auto {
         file { "/etc/nubis.d/${startup_order}-nat":
             ensure  => $link_ensure,
