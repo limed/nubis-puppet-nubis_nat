@@ -49,7 +49,6 @@ function get_private_subnets() {
     aws ec2 describe-subnets \
         --region "${REGION}" \
         --filter \
-            Name=availability-zone,Values=$(get_availability_zone) \
             Name=vpc-id,Values="${vpc_id}" \
             Name=state,Values=available \
             Name=tag-value,Values='PrivateSubnet*' \
