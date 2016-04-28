@@ -1,0 +1,15 @@
+#!/bin/bash
+
+export PATH=/usr/local/bin:$PATH
+eval $(nubis-metadata)
+
+# Awful hack
+if [[ ${NUBIS_PROJECT} != '' ]]; then
+    sed -i -e "s/%%NUBIS_PROJECT%%/${NUBIS_PROJECT}/g" /etc/ha-nat-supervisor.conf
+fi
+
+if [[ ${NUBIS_ENVIRONMENT} != '' ]]; then
+    sed -i -e "s/%%NUBIS_ENVIRONMENT%%/${NUBIS_ENVIRONMENT}/g" /etc/ha-nat-supervisor.conf
+fi
+
+/etc/init.d/ha-nat restart
