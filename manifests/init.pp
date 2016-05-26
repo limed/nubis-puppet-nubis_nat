@@ -80,7 +80,7 @@ class nubis_nat(
         content => template('nubis_nat/01-nat-sysctl.cfg.erb'),
     }
 
-    file { '/usr/local/bin/ha-nat':
+    file { '/usr/local/bin/nubis-ha-nat':
         ensure  => $file_ensure,
         owner   => root,
         group   => root,
