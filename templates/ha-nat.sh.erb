@@ -73,7 +73,7 @@ function get_private_subnets() {
         --filter \
             Name=vpc-id,Values="${vpc_id}" \
             Name=state,Values=available \
-            Name=tag-value,Values='PrivateSubnet*' \
+            Name=tag:Name,Values='PrivateSubnet*' \
         --query \
             'Subnets[*].SubnetId' \
         --output text
