@@ -1,0 +1,9 @@
+/var/log/ha-nat/*.log {
+    weekly
+    rotate 60
+    compress
+    delaycompress
+    notifempty
+    missingok
+    copytruncate
+}

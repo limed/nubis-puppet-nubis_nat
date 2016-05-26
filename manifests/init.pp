@@ -124,6 +124,15 @@ class nubis_nat(
             require => [ File['/etc/ha-nat-supervisor.conf'] ],
         }
 
+        file { '/etc/logrotate.d/nubis-ha-nat':
+            ensure  => $file_ensure,
+            owner   => root,
+            group   => root,
+            mode    => '0644',
+            source  => 'puppet:///modules/nubis_nat/supervisor/nubis-ha-nat-logrotate',
+            require => [ File['/etc/ha-nat-supervisor.conf'], File['/var/log/ha-nat'] ],
+        }
+
         file { '/etc/nubis.d/99-supervisor-fixup':
             ensure  => $file_ensure,
             owner   => root,
