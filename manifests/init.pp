@@ -133,15 +133,6 @@ class nubis_nat(
             require => [ File['/etc/ha-nat-supervisor.conf'], File['/var/log/ha-nat'] ],
         }
 
-        file { '/etc/nubis.d/99-supervisor-fixup':
-            ensure  => $file_ensure,
-            owner   => root,
-            group   => root,
-            mode    => '0755',
-            source  => 'puppet:///modules/nubis_nat/supervisor-fixup',
-            require => File['/etc/ha-nat-supervisor.conf'],
-        }
-
         service { 'ha-nat':
             ensure  => running,
             enable  => true,

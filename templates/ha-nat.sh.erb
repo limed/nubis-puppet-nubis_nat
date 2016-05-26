@@ -107,7 +107,7 @@ function configure_routes() {
             log "WARNING: "${subnet}" is not associated with a route table. Skipping this subnet"
         else
             # If our ENI isn't the default route for that subnet, make it so
-            if [ "$rtb_eni_id" != "${ENI_IN_ID}" ]; then
+            if [ "$rtb_eni_id" != "${eni_in_id}" ]; then
                 if [ "$rtb_eni_id" != "" ]; then
                     log "Replacing default route for ${rtb_id} to point to instance ${instance_id} (${eni_in_id})"
                     aws --region "${REGION}" ec2 replace-route --route-table-id "${rtb_id}" --destination-cidr-block 0.0.0.0/0 --network-interface-id "${eni_in_id}"
@@ -122,6 +122,11 @@ function configure_routes() {
     local rv=$?
     return ${rv}
 }
+
+# Re-exec ourselves under a Consul lock
+if [ "${CONSUL_LOCK_REEXEC}" != "true" ]; then
+    CONSUL_LOCK_REEXEC="true" exec consul lock ${NUBIS_STACK}/${NUBIS_ENVIRONMENT}/nubis-lock $0
+fi
 
 log "Leader change detected, changing routes"
 configure_routes
