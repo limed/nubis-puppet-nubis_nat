@@ -8,7 +8,8 @@
   "project_page": "https://github.com/nubisproject/nubis-puppet-nubis_nat",
   "issues_url": "https://github.com/nubisproject/nubis-puppet-nubis_nat/issues",
   "dependencies": [
-    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"},
+    { "name": "ajcrowe/supervisord", "version_requirement": ">= 0.6.0" }
   ]
 }
 

@@ -46,6 +46,7 @@ class nubis_nat(
     $startup_order              = '0-3',
     $nat_in_interface           = 'eth1',
     $nat_out_interface          = 'eth0',
+    $daemonize                  = true,
 ){
 
     if !($ensure in ['present', 'absent']) {
@@ -53,12 +54,14 @@ class nubis_nat(
     }
 
     if $ensure == 'present' {
-        $file_ensure    = 'file'
-        $link_ensure    = 'link'
+        $file_ensure        = 'file'
+        $link_ensure        = 'link'
+        $directory_ensure   = 'directory'
     }
     else {
-        $file_ensure    = 'absent'
-        $link_ensure    = 'absent'
+        $file_ensure        = 'absent'
+        $link_ensure        = 'absent'
+        $directory_ensure   = 'directory'
     }
 
     file { '/usr/local/bin/nat.sh':
@@ -77,11 +80,64 @@ class nubis_nat(
         content => template('nubis_nat/01-nat-sysctl.cfg.erb'),
     }
 
+    file { '/usr/local/bin/nubis-ha-nat':
+        ensure  => $file_ensure,
+        owner   => root,
+        group   => root,
+        mode    => '0755',
+        content => template('nubis_nat/ha-nat.sh.erb'),
+        require => File['/usr/local/bin/nat.sh'],
+    }
+
     if $auto {
         file { "/etc/nubis.d/${startup_order}-nat":
             ensure  => $link_ensure,
             target  => '/usr/local/bin/nat.sh',
             require => File['/usr/local/bin/nat.sh'],
+        }
+    }
+
+    if $daemonize {
+
+        file { '/var/log/ha-nat':
+            ensure => $directory_ensure,
+            owner  => root,
+            group  => root,
+            mode   => '0744',
+        }
+
+        file { '/etc/ha-nat-supervisor.conf':
+            ensure  => $file_ensure,
+            owner   => root,
+            group   => root,
+            mode    => '0755',
+            source  => 'puppet:///modules/nubis_nat/supervisor/ha-nat-supervisor.conf',
+            require => [ File['/var/log/ha-nat'] ],
+        }
+
+        file { '/etc/init.d/ha-nat':
+            ensure  => $file_ensure,
+            owner   => root,
+            group   => root,
+            mode    => '0755',
+            source  => 'puppet:///modules/nubis_nat/ha-nat.init',
+            require => [ File['/etc/ha-nat-supervisor.conf'] ],
+        }
+
+        file { '/etc/logrotate.d/nubis-ha-nat':
+            ensure  => $file_ensure,
+            owner   => root,
+            group   => root,
+            mode    => '0644',
+            source  => 'puppet:///modules/nubis_nat/supervisor/nubis-ha-nat-logrotate',
+            require => [ File['/etc/ha-nat-supervisor.conf'], File['/var/log/ha-nat'] ],
+        }
+
+        service { 'ha-nat':
+            ensure  => running,
+            enable  => true,
+            status  => '/usr/local/bin/supervisorctl -c /etc/ha-nat-supervisor.conf status ha-nat | awk \'/^ha-nat[: ]/{print \$2}\' | grep \'^RUNNING$\'',
+            require => [ File['/etc/ha-nat-supervisor.conf'], File['/etc/init.d/ha-nat'] ],
         }
     }
 
