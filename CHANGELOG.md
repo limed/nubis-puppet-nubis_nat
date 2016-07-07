@@ -1,10 +1,25 @@
 # Change Log
 
+## [v1.2.0](https://github.com/nubisproject/nubis-puppet-nat/tree/v1.2.0) (2016-07-07)
+[Full Changelog](https://github.com/nubisproject/nubis-puppet-nat/compare/v1.1.0...v1.2.0)
+
+**Implemented enhancements:**
+
+- Cleanup nat script to remove additional cruft [\#8](https://github.com/nubisproject/nubis-puppet-nat/issues/8)
+
+**Closed issues:**
+
+- Fix incorrect filters using Name=tag-value [\#1](https://github.com/nubisproject/nubis-puppet-nat/issues/1)
+
+**Merged pull requests:**
+
+- HA NAT scripts [\#20](https://github.com/nubisproject/nubis-puppet-nat/pull/20) ([limed](https://github.com/limed))
+
 ## [v1.1.0](https://github.com/nubisproject/nubis-puppet-nat/tree/v1.1.0) (2016-04-18)
 **Implemented enhancements:**
 
-- Prepare ourselves for only one active NAT instance at time [\#15](https://github.com/nubisproject/nubis-puppet-nat/issues/15)
 - Update puppet module metadata [\#11](https://github.com/nubisproject/nubis-puppet-nat/issues/11)
+- Prepare ourselves for only one active NAT instance at time [\#15](https://github.com/nubisproject/nubis-puppet-nat/issues/15)
 
 **Fixed bugs:**
 
@@ -18,13 +33,14 @@
 
 **Merged pull requests:**
 
--  Backwards-incompatible change: Make the current NAT route all traffic for all private subnets [\#16](https://github.com/nubisproject/nubis-puppet-nat/pull/16) ([gozer](https://github.com/gozer))
+- Update CHANGELOG for v1.1.0 release [\#17](https://github.com/nubisproject/nubis-puppet-nat/pull/17) ([tinnightcap](https://github.com/tinnightcap))
 - Load sysctl from a file [\#14](https://github.com/nubisproject/nubis-puppet-nat/pull/14) ([limed](https://github.com/limed))
 - Fixing metadata to point to new org [\#13](https://github.com/nubisproject/nubis-puppet-nat/pull/13) ([limed](https://github.com/limed))
 - Disable rp\_filter option [\#12](https://github.com/nubisproject/nubis-puppet-nat/pull/12) ([limed](https://github.com/limed))
 - Handle the case where there is no default route at all [\#7](https://github.com/nubisproject/nubis-puppet-nat/pull/7) ([gozer](https://github.com/gozer))
 - Only set our ENI as the default route for our subnets if not already [\#5](https://github.com/nubisproject/nubis-puppet-nat/pull/5) ([gozer](https://github.com/gozer))
 - Fix ordering to be 0-3, like shown working in base [\#3](https://github.com/nubisproject/nubis-puppet-nat/pull/3) ([gozer](https://github.com/gozer))
+-  Backwards-incompatible change: Make the current NAT route all traffic for all private subnets [\#16](https://github.com/nubisproject/nubis-puppet-nat/pull/16) ([gozer](https://github.com/gozer))
 
 
 
