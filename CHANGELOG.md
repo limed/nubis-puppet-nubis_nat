@@ -6,13 +6,16 @@
 **Implemented enhancements:**
 
 - Cleanup nat script to remove additional cruft [\#8](https://github.com/nubisproject/nubis-puppet-nat/issues/8)
+- Implement HA nat [\#18](https://github.com/nubisproject/nubis-puppet-nat/issues/18)
 
 **Closed issues:**
 
 - Fix incorrect filters using Name=tag-value [\#1](https://github.com/nubisproject/nubis-puppet-nat/issues/1)
+- Tag v1.2.0 release [\#21](https://github.com/nubisproject/nubis-puppet-nat/issues/21)
 
 **Merged pull requests:**
 
+- Update CHANGELOG for v1.2.0 release [\#22](https://github.com/nubisproject/nubis-puppet-nat/pull/22) ([tinnightcap](https://github.com/tinnightcap))
 - HA NAT scripts [\#20](https://github.com/nubisproject/nubis-puppet-nat/pull/20) ([limed](https://github.com/limed))
 
 ## [v1.1.0](https://github.com/nubisproject/nubis-puppet-nat/tree/v1.1.0) (2016-04-18)
