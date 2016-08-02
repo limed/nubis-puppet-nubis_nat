@@ -45,4 +45,19 @@ log "$(sysctl net.ipv4.ip_forward)"
 log "$(sysctl net.ipv4.conf.all.send_redirects)"
 log "$(iptables -n -t nat -L POSTROUTING)"
 
+# Disable source destination check else this breaks nat
+ENI_IN_ID=$(get_eni_id "${NAT_IN_INTERFACE}")
+ENI_OUT_ID=$(get_eni_id "${NAT_OUT_INTERFACE}")
+for eni in ${ENI_IN_ID} ${ENI_OUT_ID}; do
+    log "Disabling SourceDestCheck for eni: ${eni}"
+    SOURCEDEST_CHECK=$(aws ec2 describe-network-interfaces --network-interface-ids "${eni}" --query 'NetworkInterfaces[].SourceDestCheck' --region "${REGION}" --output text)
+
+    # This needs to happen otherwise the NAT will not work
+    if [[ "${SOURCEDEST_CHECK}" != 'False' ]] || [[ "${SOURCEDEST_CHECK}" != 'false' ]]; then
+        log "Setting SourceDestCheck to false for eni: ${eni}"
+        aws ec2 modify-network-interface-attribute --network-interface-id "${eni}" --no-source-dest-check --region "${REGION}" ||
+            die "Unable to set SourceDestCheck to false"
+    fi
+done
+
 log "Configuration of iptables for NAT/PAT complete."
