@@ -125,7 +125,7 @@ function configure_routes() {
 
 # Re-exec ourselves under a Consul lock
 if [ "${CONSUL_LOCK_REEXEC}" != "true" ]; then
-    CONSUL_LOCK_REEXEC="true" exec consul lock arenas/${nubis-metadata NUBIS_ARENA}/global/nat/nubis-lock $0
+    CONSUL_LOCK_REEXEC="true" exec consul lock arenas/$(nubis-metadata NUBIS_ARENA)/global/nat/nubis-lock $0
 fi
 
 log "Leader change detected, changing routes"
