@@ -1,6 +1,6 @@
 # nubis_nat
 
-#### Table of Contents
+## Table of Contents
 
 1. [Overview](#overview)
 2. [Module Description - What the module does and why it is useful](#module-description)
@@ -12,7 +12,7 @@ Creates a NAT instance in AWS
 
 ## Module Description
 
-Sets up an AWS NAT Instance using Iptables 
+Sets up an AWS NAT Instance using Iptables
 
 ## Usage
 
