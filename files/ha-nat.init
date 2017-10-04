@@ -14,11 +14,12 @@ SUPERVISOR_PIDFILE="/var/run/ha-nat-supervisord.pid"
 RETVAL=0
 
 # Source function library.
+# shellcheck disable=SC1091
 . /etc/rc.d/init.d/functions
 
 start() {
     echo -n $"Starting $NAME (using supervisord): "
-    daemon ${SUPERVISORD} ${SUPERVISOR_OPT}
+    daemon "${SUPERVISORD}" "${SUPERVISOR_OPT}"
     RETVAL=$?
     echo
     [ $RETVAL -eq 0 ] && touch ${LOCK_FILE}
@@ -27,7 +28,7 @@ start() {
 
 stop() {
     echo -n $"Stopping ${NAME} (using supervisord): "
-    ${SUPERVISORCTL} ${SUPERVISOR_OPT} stop ${NAME}
+    "${SUPERVISORCTL}" "${SUPERVISOR_OPT}" stop "${NAME}"
     echo
     echo -n $"Stopping supervisord: "
     killproc -p ${SUPERVISOR_PIDFILE}
