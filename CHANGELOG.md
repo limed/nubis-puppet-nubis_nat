@@ -1,7 +1,27 @@
 # Change Log
 
+## [v1.2.3](https://github.com/nubisproject/nubis-puppet-nat/tree/v1.2.3) (2017-10-04)
+[Full Changelog](https://github.com/nubisproject/nubis-puppet-nat/compare/v1.2.2...v1.2.3)
+
+**Closed issues:**
+
+- Tag v1.2.3 release [\#30](https://github.com/nubisproject/nubis-puppet-nat/issues/30)
+- Tag new release v1.3.0 [\#26](https://github.com/nubisproject/nubis-puppet-nat/issues/26)
+
+**Merged pull requests:**
+
+- Update CHANGELOG for v1.2.2 relase [\#28](https://github.com/nubisproject/nubis-puppet-nat/pull/28) ([limed](https://github.com/limed))
+
 ## [v1.2.2](https://github.com/nubisproject/nubis-puppet-nat/tree/v1.2.2) (2016-08-02)
 [Full Changelog](https://github.com/nubisproject/nubis-puppet-nat/compare/v1.2.1...v1.2.2)
+
+**Fixed bugs:**
+
+- Disable sourcedest check [\#25](https://github.com/nubisproject/nubis-puppet-nat/issues/25)
+
+**Closed issues:**
+
+- Tag new release v1.2.2 [\#29](https://github.com/nubisproject/nubis-puppet-nat/issues/29)
 
 **Merged pull requests:**
 
