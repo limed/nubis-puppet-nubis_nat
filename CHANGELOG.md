@@ -1,15 +1,29 @@
 # Change Log
 
 ## [v1.2.3](https://github.com/nubisproject/nubis-puppet-nat/tree/v1.2.3) (2017-10-04)
+[Full Changelog](https://github.com/nubisproject/nubis-puppet-nat/compare/v1.2.3...v1.2.3)
+
+**Merged pull requests:**
+
+- Readme lint fixes [\#39](https://github.com/nubisproject/nubis-puppet-nat/pull/39) ([limed](https://github.com/limed))
+- supervisord shellcheck fixes [\#38](https://github.com/nubisproject/nubis-puppet-nat/pull/38) ([limed](https://github.com/limed))
+- Nat script fix [\#37](https://github.com/nubisproject/nubis-puppet-nat/pull/37) ([limed](https://github.com/limed))
+- Fixing up shellcheck failures [\#36](https://github.com/nubisproject/nubis-puppet-nat/pull/36) ([limed](https://github.com/limed))
+- Feature/arena [\#35](https://github.com/nubisproject/nubis-puppet-nat/pull/35) ([gozer](https://github.com/gozer))
+
+## [v1.2.3](https://github.com/nubisproject/nubis-puppet-nat/tree/v1.2.3) (2017-10-04)
 [Full Changelog](https://github.com/nubisproject/nubis-puppet-nat/compare/v1.2.2...v1.2.3)
 
 **Closed issues:**
 
-- Tag v1.2.3 release [\#30](https://github.com/nubisproject/nubis-puppet-nat/issues/30)
 - Tag new release v1.3.0 [\#26](https://github.com/nubisproject/nubis-puppet-nat/issues/26)
+- Tag v1.2.3 release [\#32](https://github.com/nubisproject/nubis-puppet-nat/issues/32)
+- Tag v1.2.3 release [\#30](https://github.com/nubisproject/nubis-puppet-nat/issues/30)
 
 **Merged pull requests:**
 
+- Merge v1.2.3 release into develop. \[skip ci\] [\#34](https://github.com/nubisproject/nubis-puppet-nat/pull/34) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v1.2.3 release \[skip ci\] [\#33](https://github.com/nubisproject/nubis-puppet-nat/pull/33) ([tinnightcap](https://github.com/tinnightcap))
 - Update CHANGELOG for v1.2.2 relase [\#28](https://github.com/nubisproject/nubis-puppet-nat/pull/28) ([limed](https://github.com/limed))
 
 ## [v1.2.2](https://github.com/nubisproject/nubis-puppet-nat/tree/v1.2.2) (2016-08-02)
