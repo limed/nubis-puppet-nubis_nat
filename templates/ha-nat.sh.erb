@@ -87,6 +87,7 @@ function configure_routes() {
     vpc_id=$(get_vpc_id "${instance_id}")
 
     local private_subnets
+    # shellcheck disable=SC2207
     private_subnets=($(get_private_subnets "${vpc_id}"))
 
     local eni_in_id
